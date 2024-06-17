@@ -11,6 +11,7 @@
 
 .nav_bar {
   border: 2px solid green;
+  width: 100%;
 }
 
 .nav_link {
@@ -29,4 +30,37 @@ li {
   padding-left: 15px;
   padding-right: 15px;
   list-style-type: none;
+}
+
+.article_page_main_info {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  flex-shrink: 1;
+}
+
+.article_side_by_side {
+  display: flex;
+  flex-direction: column;
+  flex-basis: 70%;
+  flex: 1;
+  max-width: 50%;
+}
+
+.main_article_image {
+  max-width: 100%;
+}
+
+.article_body {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.article_page_title {
+  word-wrap: normal;
+}
+
+.article_info {
+  font-size: 1em;
 }

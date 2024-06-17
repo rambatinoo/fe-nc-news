@@ -18,14 +18,23 @@ export const ArticleById = () => {
   }, []);
   return (
     <div>
-      <h2>
-        {article.title} By {article.author}
-      </h2>
-      <h3>
-        {article.topic} - article posted: {date}
-      </h3>
-      <p>{article.body}</p>
-      <img src={article.article_img_url}></img>
+      <h2 className="article_page_title">{article.title}</h2>
+      <div className="article_page_main_info">
+        <div className="article_side_by_side">
+          <img
+            src={article.article_img_url}
+            className="main_article_image"
+          ></img>
+        </div>
+        <div className="article_side_by_side">
+          <h3 className="article_info">{article.topic}</h3>
+          <h3 className="article_info">By: {article.author}</h3>
+          <h3 className="article_info">Article Posted On: {date}</h3>
+        </div>
+      </div>
+
+      <p className="article_body">{article.body}</p>
+
       <div>
         <button>Like</button>
         <p>Likes: {article.votes}</p>
