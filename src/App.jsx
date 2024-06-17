@@ -5,6 +5,7 @@ import { Header } from "./components/Header";
 import { NavBar } from "./components/NavBar";
 import { Home } from "./components/Home";
 import { AddArticle } from "./components/AddArticle";
+import { ArticleById } from "./components/ArticleById";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />}></Route>
           <Route path="/write_article" element={<AddArticle />}></Route>
+          <Route path="/articles/:article_id" element={<ArticleById />}></Route>
         </Routes>
       </BrowserRouter>
     </>
