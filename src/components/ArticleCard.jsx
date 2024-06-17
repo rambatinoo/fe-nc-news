@@ -6,16 +6,23 @@ import Typography from "@mui/material/Typography";
 import CardActions from "@mui/material/CardActions";
 import { CardActionArea } from "@mui/material";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 export const ArticleCard = ({ article }) => {
+  const navigate = useNavigate();
+
+  const handleClick = (event) => {
+    navigate(`/articles/${event.target.id}`);
+  };
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+      <CardActionArea onClick={handleClick}>
         <CardMedia
           component="img"
           height="140"
           image={article.article.article_img_url}
           alt="the picture associated with the article"
+          id={article.article.article_id}
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
