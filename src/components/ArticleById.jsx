@@ -14,6 +14,7 @@ export const ArticleById = () => {
   const handleCommentClick = () => {
     getComments(article_id).then((response) => {
       setComments(response);
+      setClicked(true);
     });
   };
 
@@ -52,11 +53,13 @@ export const ArticleById = () => {
         <p>Likes: {article.votes}</p>
       </div>
       {!clicked ? (
-        <button onClick={handleCommentClick}>
+        <button onClick={handleCommentClick} className="show_hide_comments">
           See {article.comment_count} Comments
         </button>
       ) : (
-        <button onClick={handleHideComments}>Hide Comments</button>
+        <button onClick={handleHideComments} className="show_hide_comments">
+          Hide Comments
+        </button>
       )}
       <ul>
         {comments.map((comment) => {
