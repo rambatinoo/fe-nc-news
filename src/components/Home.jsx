@@ -11,7 +11,6 @@ export const Home = () => {
       setTotalCount(response.totalCount);
     });
   }, []);
-  console.log(articles);
   console.log(totalCount);
   return (
     <div>

@@ -33,11 +33,24 @@ export const getComments = (id) => {
 };
 
 export const patchArticleLikes = (id, increment) => {
-  const body = { inc_votes: increment };
+  const body = { inv_votes: increment };
   return newsAPI
     .patch(`/articles/${id}`, body)
     .then((response) => {
       return response.data;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
+
+export const postNewComment = (articleId, commentText, user) => {
+  const body = { username: user, body: commentText };
+  return newsAPI
+    .post(`/articles/${articleId}/comments`, body)
+    .then(({ data }) => {
+      return data.comment;
     })
     .catch((error) => {
       console.log(error);

@@ -1,8 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleById, getComments, patchArticleLikes } from "../utils/api";
+import {
+  getArticleById,
+  getComments,
+  patchArticleLikes,
+  postNewComment,
+} from "../utils/api";
 import { format } from "date-fns";
 import { CommentCard } from "./CommentCard";
+import { UserContext } from "../contexts/UserContext";
 
 export const ArticleById = () => {
   const { article_id } = useParams();
@@ -11,7 +17,10 @@ export const ArticleById = () => {
   const [clicked, setClicked] = useState(false);
   const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(false);
-  const [error, setError] = useState(null);
+  const [likeError, setlikeError] = useState(null);
+  const { user } = useContext(UserContext);
+  const [newComment, setNewComment] = useState("");
+  const [commentError, setCommentError] = useState(null);
 
   const handleCommentClick = () => {
     getComments(article_id).then((response) => {
@@ -31,9 +40,22 @@ export const ArticleById = () => {
     setLiked(!liked);
     patchArticleLikes(article_id, increment).catch((error) => {
       console.log(error);
-      setError("Unable to change likes, please try again");
+      setlikeError("Unable to change likes, please try again");
       setArticle({ ...article, votes: article.votes - increment });
       setLiked(!liked);
+    });
+  };
+
+  const handleNewComment = (event) => {
+    event.preventDefault();
+    const newComment = event.target[0].value;
+    const userPosting = user.username;
+    postNewComment(article_id, newComment, userPosting).then((newComment) => {
+      console.log(newComment);
+      setNewComment("");
+      setComments((currentComments) => {
+        return [newComment, ...currentComments];
+      });
     });
   };
 
@@ -68,7 +90,7 @@ export const ArticleById = () => {
         ) : (
           <button onClick={handleArticleLike}>Unlike</button>
         )}
-        {error ? <p>{error}</p> : null}
+        {likeError ? <p>{likeError}</p> : null}
         <p>Likes: {article.votes}</p>
       </div>
       {!clicked ? (
@@ -76,9 +98,24 @@ export const ArticleById = () => {
           See {article.comment_count} Comments
         </button>
       ) : (
-        <button onClick={handleHideComments} className="show_hide_comments">
-          Hide Comments
-        </button>
+        <div>
+          <button onClick={handleHideComments} className="show_hide_comments">
+            Hide Comments
+          </button>
+          <form onSubmit={handleNewComment}>
+            <label>
+              Add a new comment
+              <textarea
+                multiline="true"
+                value={newComment}
+                onChange={(event) => {
+                  setNewComment(event.target.value);
+                }}
+              ></textarea>
+            </label>
+            <button>Add comment</button>
+          </form>
+        </div>
       )}
       <ul>
         {comments.map((comment) => {
