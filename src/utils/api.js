@@ -31,3 +31,15 @@ export const getComments = (id) => {
     return data.comments;
   });
 };
+
+export const patchArticleLikes = (id, increment) => {
+  const body = { inc_votes: increment };
+  return newsAPI
+    .patch(`/articles/${id}`, body)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};

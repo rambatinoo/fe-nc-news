@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleById, getComments } from "../utils/api";
+import { getArticleById, getComments, patchArticleLikes } from "../utils/api";
 import { format } from "date-fns";
 import { CommentCard } from "./CommentCard";
 
@@ -10,6 +10,7 @@ export const ArticleById = () => {
   const [date, setDate] = useState("");
   const [clicked, setClicked] = useState(false);
   const [comments, setComments] = useState([]);
+  const [liked, setLiked] = useState(false);
 
   const handleCommentClick = () => {
     getComments(article_id).then((response) => {
@@ -21,6 +22,18 @@ export const ArticleById = () => {
   const handleHideComments = () => {
     setClicked(false);
     setComments([]);
+  };
+
+  const handleArticleLike = () => {
+    let incrament = 1;
+    if (liked) {
+      incrament = -1;
+    }
+    patchArticleLikes(article_id, incrament).catch((error) => {
+      console.log(error);
+    });
+    setArticle({ ...article, votes: article.votes + incrament });
+    setLiked(!liked);
   };
 
   useEffect(() => {
@@ -49,7 +62,12 @@ export const ArticleById = () => {
       <p className="article_body">{article.body}</p>
 
       <div>
-        <button>Like</button>
+        {!liked ? (
+          <button onClick={handleArticleLike}>Like</button>
+        ) : (
+          <button onClick={handleArticleLike}>Unlike</button>
+        )}
+
         <p>Likes: {article.votes}</p>
       </div>
       {!clicked ? (
