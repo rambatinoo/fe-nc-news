@@ -9,8 +9,10 @@ export const CommentCard = ({ comment }) => {
       <div className="comment_card">
         <p className="comment_body">{comment.body}</p>
         <div className="comment_info">
-          <button>Like</button>
-          <p>{comment.votes}</p>
+          <div className="comment_likes">
+            <button>Like</button>
+            <p>{comment.votes}</p>
+          </div>
           <p>By {comment.author}</p>
         </div>
         {/* <p>On {date}</p> */}
