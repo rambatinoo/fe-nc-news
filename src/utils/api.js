@@ -33,7 +33,7 @@ export const getComments = (id) => {
 };
 
 export const patchArticleLikes = (id, increment) => {
-  const body = { inv_votes: increment };
+  const body = { inc_votes: increment };
   return newsAPI
     .patch(`/articles/${id}`, body)
     .then((response) => {

@@ -38,6 +38,7 @@ export const ArticleById = () => {
     const increment = liked ? -1 : 1;
     setArticle({ ...article, votes: article.votes + increment });
     setLiked(!liked);
+    setlikeError(null);
     patchArticleLikes(article_id, increment).catch((error) => {
       console.log(error);
       setlikeError("Unable to change likes, please try again");
@@ -50,13 +51,18 @@ export const ArticleById = () => {
     event.preventDefault();
     const newComment = event.target[0].value;
     const userPosting = user.username;
-    postNewComment(article_id, newComment, userPosting).then((newComment) => {
-      console.log(newComment);
-      setNewComment("");
-      setComments((currentComments) => {
-        return [newComment, ...currentComments];
+    postNewComment(article_id, newComment, userPosting)
+      .then((newComment) => {
+        setNewComment("");
+        setComments((currentComments) => {
+          return [newComment, ...currentComments];
+        });
+        setCommentError(null);
+      })
+      .catch((error) => {
+        console.log(error);
+        setCommentError("unable to post comment, please try again");
       });
-    });
   };
 
   useEffect(() => {
@@ -115,6 +121,7 @@ export const ArticleById = () => {
             </label>
             <button>Add comment</button>
           </form>
+          {commentError ? <p>{commentError}</p> : null}
         </div>
       )}
       <ul>
