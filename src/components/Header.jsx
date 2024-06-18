@@ -1,4 +1,8 @@
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
+
 export const Header = () => {
+  const { user } = useContext(UserContext);
   return (
     <div className="header">
       <div className="logo_header">
@@ -7,6 +11,7 @@ export const Header = () => {
       </div>
 
       <p>all the gossip from your local community</p>
+      <p>logged in as {user.username}</p>
     </div>
   );
 };
