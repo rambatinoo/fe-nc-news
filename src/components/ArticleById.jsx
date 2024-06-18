@@ -11,6 +11,7 @@ export const ArticleById = () => {
   const [clicked, setClicked] = useState(false);
   const [comments, setComments] = useState([]);
   const [liked, setLiked] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleCommentClick = () => {
     getComments(article_id).then((response) => {
@@ -25,15 +26,15 @@ export const ArticleById = () => {
   };
 
   const handleArticleLike = () => {
-    let incrament = 1;
-    if (liked) {
-      incrament = -1;
-    }
-    patchArticleLikes(article_id, incrament).catch((error) => {
-      console.log(error);
-    });
-    setArticle({ ...article, votes: article.votes + incrament });
+    const increment = liked ? -1 : 1;
+    setArticle({ ...article, votes: article.votes + increment });
     setLiked(!liked);
+    patchArticleLikes(article_id, increment).catch((error) => {
+      console.log(error);
+      setError("Unable to change likes, please try again");
+      setArticle({ ...article, votes: article.votes - increment });
+      setLiked(!liked);
+    });
   };
 
   useEffect(() => {
@@ -67,7 +68,7 @@ export const ArticleById = () => {
         ) : (
           <button onClick={handleArticleLike}>Unlike</button>
         )}
-
+        {error ? <p>{error}</p> : null}
         <p>Likes: {article.votes}</p>
       </div>
       {!clicked ? (

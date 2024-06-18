@@ -37,9 +37,10 @@ export const patchArticleLikes = (id, increment) => {
   return newsAPI
     .patch(`/articles/${id}`, body)
     .then((response) => {
-      console.log(response);
+      return response.data;
     })
     .catch((error) => {
       console.log(error);
+      throw error;
     });
 };
