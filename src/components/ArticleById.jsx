@@ -1,14 +1,27 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getArticleById } from "../utils/api";
+import { getArticleById, getComments } from "../utils/api";
 import { format } from "date-fns";
+import { CommentCard } from "./CommentCard";
 
 export const ArticleById = () => {
   const { article_id } = useParams();
   const [article, setArticle] = useState({});
   const [date, setDate] = useState("");
-  console.log(article);
-  console.log(date);
+  const [clicked, setClicked] = useState(false);
+  const [comments, setComments] = useState([]);
+
+  const handleCommentClick = () => {
+    getComments(article_id).then((response) => {
+      setComments(response);
+      setClicked(true);
+    });
+  };
+
+  const handleHideComments = () => {
+    setClicked(false);
+    setComments([]);
+  };
 
   useEffect(() => {
     getArticleById(article_id).then((response) => {
@@ -39,7 +52,24 @@ export const ArticleById = () => {
         <button>Like</button>
         <p>Likes: {article.votes}</p>
       </div>
-      <button>See {article.comment_count} Comments</button>
+      {!clicked ? (
+        <button onClick={handleCommentClick} className="show_hide_comments">
+          See {article.comment_count} Comments
+        </button>
+      ) : (
+        <button onClick={handleHideComments} className="show_hide_comments">
+          Hide Comments
+        </button>
+      )}
+      <ul>
+        {comments.map((comment) => {
+          return (
+            <div>
+              <CommentCard comment={comment} />
+            </div>
+          );
+        })}
+      </ul>
     </div>
   );
 };
