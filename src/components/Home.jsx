@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { getArticles } from "../utils/api";
 import { ArticleCard } from "./ArticleCard";
+import { TopicDropdown } from "./TopicDropdown";
 
 export const Home = () => {
   const [articles, setArticles] = useState([]);
@@ -14,6 +15,10 @@ export const Home = () => {
   console.log(totalCount);
   return (
     <div>
+      <label>
+        View articles relating to:
+        <TopicDropdown />
+      </label>
       <p>there are {totalCount} articles matching your search</p>
       <ul className="articles_list">
         {articles.map((article) => {

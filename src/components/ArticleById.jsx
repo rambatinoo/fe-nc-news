@@ -42,7 +42,6 @@ export const ArticleById = () => {
     setLiked(!liked);
     setlikeError(null);
     patchArticleLikes(article_id, increment).catch((error) => {
-      console.log(error);
       setlikeError("Unable to change likes, please try again");
       setArticle({ ...article, votes: article.votes - increment });
       setLiked(!liked);
@@ -62,7 +61,6 @@ export const ArticleById = () => {
         setCommentError(null);
       })
       .catch((error) => {
-        console.log(error);
         setCommentError("unable to post comment, please try again");
       });
   };
@@ -78,7 +76,6 @@ export const ArticleById = () => {
         setDeleteError(null);
       })
       .catch((error) => {
-        console.log(error);
         setDeleteError("Unable to delete comment, please try again");
       });
   };

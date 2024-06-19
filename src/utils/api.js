@@ -70,3 +70,9 @@ export const deleteComment = (id) => {
       throw error;
     });
 };
+
+export const getTopics = () => {
+  return newsAPI.get("/topics").then(({ data }) => {
+    return data.topics;
+  });
+};
