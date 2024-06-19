@@ -1,21 +1,37 @@
+import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getArticles } from "../utils/api";
-import { ArticleCard } from "./ArticleCard";
 import { TopicDropdown } from "./TopicDropdown";
+import { ArticleCard } from "./ArticleCard";
 
-export const Home = () => {
+export const SpecificTopicArticles = () => {
+  const { topic } = useParams();
   const [articles, setArticles] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
-    getArticles().then((response) => {
-      setArticles(response.articles);
-      setTotalCount(response.totalCount);
-    });
-  }, []);
+    setIsLoading(true);
+    getArticles(topic)
+      .then((response) => {
+        setArticles(response.articles);
+        setTotalCount(response.totalCount);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  }, [topic]);
+
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
+
   return (
     <div>
       <label>
-        View articles relating to:
+        You are viewing articles relating to {topic}, want to change?
         <TopicDropdown />
       </label>
       <p>there are {totalCount} articles matching your search</p>
