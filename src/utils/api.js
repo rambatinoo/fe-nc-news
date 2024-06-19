@@ -44,3 +44,16 @@ export const patchArticleLikes = (id, increment) => {
       throw error;
     });
 };
+
+export const postNewComment = (articleId, commentText, user) => {
+  const body = { username: user, body: commentText };
+  return newsAPI
+    .post(`/articles/${articleId}/comments`, body)
+    .then(({ data }) => {
+      return data.comment;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};

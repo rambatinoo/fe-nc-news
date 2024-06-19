@@ -6,19 +6,25 @@ import { NavBar } from "./components/NavBar";
 import { Home } from "./components/Home";
 import { AddArticle } from "./components/AddArticle";
 import { ArticleById } from "./components/ArticleById";
+import { UserProvider } from "./contexts/UserContext";
 
 function App() {
   return (
     <>
-      <BrowserRouter>
-        <Header />
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/write_article" element={<AddArticle />}></Route>
-          <Route path="/articles/:article_id" element={<ArticleById />}></Route>
-        </Routes>
-      </BrowserRouter>
+      <UserProvider>
+        <BrowserRouter>
+          <Header />
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<Home />}></Route>
+            <Route path="/write_article" element={<AddArticle />}></Route>
+            <Route
+              path="/articles/:article_id"
+              element={<ArticleById />}
+            ></Route>
+          </Routes>
+        </BrowserRouter>
+      </UserProvider>
     </>
   );
 }
