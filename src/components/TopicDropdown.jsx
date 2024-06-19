@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 export const TopicDropdown = () => {
   const navigate = useNavigate();
   const handleChange = (event) => {
-    console.log(event);
     navigate(`/articles/topics/${event.value}`);
   };
 

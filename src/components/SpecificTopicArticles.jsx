@@ -8,14 +8,25 @@ export const SpecificTopicArticles = () => {
   const { topic } = useParams();
   const [articles, setArticles] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    console.log(topic);
-    getArticles(topic).then((response) => {
-      setArticles(response.articles);
-      setTotalCount(response.totalCount);
-    });
-  }, []);
+    setIsLoading(true);
+    getArticles(topic)
+      .then((response) => {
+        setArticles(response.articles);
+        setTotalCount(response.totalCount);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
+  }, [topic]);
+
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
 
   return (
     <div>
