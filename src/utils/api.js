@@ -57,3 +57,15 @@ export const postNewComment = (articleId, commentText, user) => {
       throw error;
     });
 };
+
+export const deleteComment = (id) => {
+  return newsAPI
+    .delete(`/comments/${id}`)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};

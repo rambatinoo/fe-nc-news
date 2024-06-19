@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
+  deleteComment,
   getArticleById,
   getComments,
   patchArticleLikes,
@@ -65,12 +66,26 @@ export const ArticleById = () => {
       });
   };
 
+  const handleDeleteComment = (commentId) => {
+    deleteComment(commentId)
+      .then(() => {
+        setComments((currentComments) => {
+          return currentComments.filter(
+            (comment) => comment.comment_id !== commentId
+          );
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   useEffect(() => {
     getArticleById(article_id).then((response) => {
       setArticle(response);
       setDate(format(new Date(response.created_at), "EEE d MMMM yyyy"));
     });
-  }, []);
+  }, [comments]);
   return (
     <div>
       <h2 className="article_page_title">{article.title}</h2>
@@ -125,13 +140,14 @@ export const ArticleById = () => {
         </div>
       )}
       <ul>
-        {comments.map((comment) => {
-          return (
-            <div>
-              <CommentCard comment={comment} />
-            </div>
-          );
-        })}
+        {Array.isArray(comments) &&
+          comments.map((comment) => {
+            return (
+              <div key={comment.comment_id}>
+                <CommentCard comment={comment} onDelete={handleDeleteComment} />
+              </div>
+            );
+          })}
       </ul>
     </div>
   );
