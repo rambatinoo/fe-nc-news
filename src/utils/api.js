@@ -1,4 +1,5 @@
 import axios from "axios";
+import { renderToPipeableStream } from "react-dom/server";
 
 const newsAPI = axios.create({
   baseURL: "https://backend-project-nc-news-hftl.onrender.com/api",
@@ -51,6 +52,18 @@ export const postNewComment = (articleId, commentText, user) => {
     .post(`/articles/${articleId}/comments`, body)
     .then(({ data }) => {
       return data.comment;
+    })
+    .catch((error) => {
+      console.log(error);
+      throw error;
+    });
+};
+
+export const deleteComment = (id) => {
+  return newsAPI
+    .delete(`/comments/${id}`)
+    .then((response) => {
+      return response;
     })
     .catch((error) => {
       console.log(error);

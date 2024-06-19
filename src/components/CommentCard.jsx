@@ -1,6 +1,17 @@
 import { format } from "date-fns";
+import { useState, useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 
-export const CommentCard = ({ comment }) => {
+export const CommentCard = ({ comment, onDelete }) => {
+  const { user } = useContext(UserContext);
+  const canDelete = comment.author === user.username;
+  const [deleting, setDeleting] = useState(false);
+
+  const initiateDelete = () => {
+    setDeleting(true);
+    onDelete(comment.comment_id);
+  };
+
   return (
     <li key={comment.comment_id} className="comment_list_item">
       <div className="comment_card">
@@ -11,6 +22,11 @@ export const CommentCard = ({ comment }) => {
             <p>{comment.votes}</p>
           </div>
           <p>By {comment.author}</p>
+          {canDelete && (
+            <button onClick={initiateDelete} disabled={deleting}>
+              {deleting ? "Removing Comment" : "Delete"}
+            </button>
+          )}
         </div>
       </div>
     </li>
