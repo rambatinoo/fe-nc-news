@@ -7,6 +7,7 @@ import { Home } from "./components/Home";
 import { AddArticle } from "./components/AddArticle";
 import { ArticleById } from "./components/ArticleById";
 import { UserProvider } from "./contexts/UserContext";
+import { SpecificTopicArticles } from "./components/SpecificTopicArticles";
 
 function App() {
   return (
@@ -21,6 +22,10 @@ function App() {
             <Route
               path="/articles/:article_id"
               element={<ArticleById />}
+            ></Route>
+            <Route
+              path="/articles/topics/:topic"
+              element={<SpecificTopicArticles />}
             ></Route>
           </Routes>
         </BrowserRouter>
