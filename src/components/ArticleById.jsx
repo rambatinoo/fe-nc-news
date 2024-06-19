@@ -22,6 +22,7 @@ export const ArticleById = () => {
   const { user } = useContext(UserContext);
   const [newComment, setNewComment] = useState("");
   const [commentError, setCommentError] = useState(null);
+  const [deleteError, setDeleteError] = useState(null);
 
   const handleCommentClick = () => {
     getComments(article_id).then((response) => {
@@ -74,9 +75,11 @@ export const ArticleById = () => {
             (comment) => comment.comment_id !== commentId
           );
         });
+        setDeleteError(null);
       })
       .catch((error) => {
         console.log(error);
+        setDeleteError("Unable to delete comment, please try again");
       });
   };
 
@@ -111,7 +114,7 @@ export const ArticleById = () => {
         ) : (
           <button onClick={handleArticleLike}>Unlike</button>
         )}
-        {likeError ? <p>{likeError}</p> : null}
+        {likeError ? <p className="like_comment_error">{likeError}</p> : null}
         <p>Likes: {article.votes}</p>
       </div>
       {!clicked ? (
@@ -136,9 +139,14 @@ export const ArticleById = () => {
             </label>
             <button>Add comment</button>
           </form>
-          {commentError ? <p>{commentError}</p> : null}
+          {commentError ? (
+            <p className="post_comment_error">{commentError}</p>
+          ) : null}
         </div>
       )}
+      {deleteError ? (
+        <p className="delete_comment_error">{deleteError}</p>
+      ) : null}
       <ul>
         {comments.map((comment) => {
           return (

@@ -5,8 +5,10 @@ import { UserContext } from "../contexts/UserContext";
 export const CommentCard = ({ comment, onDelete }) => {
   const { user } = useContext(UserContext);
   const canDelete = comment.author === user.username;
+  const [deleting, setDeleting] = useState(false);
 
   const initiateDelete = () => {
+    setDeleting(true);
     onDelete(comment.comment_id);
   };
 
@@ -20,7 +22,11 @@ export const CommentCard = ({ comment, onDelete }) => {
             <p>{comment.votes}</p>
           </div>
           <p>By {comment.author}</p>
-          {canDelete && <button onClick={initiateDelete}>Delete</button>}
+          {canDelete && (
+            <button onClick={initiateDelete} disabled={deleting}>
+              {deleting ? "Removing Comment" : "Delete"}
+            </button>
+          )}
         </div>
       </div>
     </li>
