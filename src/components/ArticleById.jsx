@@ -140,14 +140,13 @@ export const ArticleById = () => {
         </div>
       )}
       <ul>
-        {Array.isArray(comments) &&
-          comments.map((comment) => {
-            return (
-              <div key={comment.comment_id}>
-                <CommentCard comment={comment} onDelete={handleDeleteComment} />
-              </div>
-            );
-          })}
+        {comments.map((comment) => {
+          return (
+            <div key={comment.comment_id}>
+              <CommentCard comment={comment} onDelete={handleDeleteComment} />
+            </div>
+          );
+        })}
       </ul>
     </div>
   );
