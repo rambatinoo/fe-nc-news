@@ -1,3 +1,5 @@
+// MAKE TOPIC A QUERY ON A REFACTOR SO THAT EVERYTHING IS CONTROLLED BY THE HOME PAGE - TOO MUCH COPY AND PASTE
+
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getArticles } from "../utils/api";
@@ -13,10 +15,13 @@ export const SpecificTopicArticles = () => {
 
   const sort_by = searchParams.get("sort_by") || "created_at";
   const order = searchParams.get("order") || "desc";
+  const limit = searchParams.get("limit") || 10;
+  const p = Number(searchParams.get("p")) || 1;
+  const numOfPages = Math.ceil(totalCount / limit);
 
   useEffect(() => {
     setIsLoading(true);
-    getArticles(topic, sort_by, order)
+    getArticles(topic, sort_by, order, limit, p)
       .then((response) => {
         setArticles(response.articles);
         setTotalCount(response.totalCount);
@@ -26,16 +31,25 @@ export const SpecificTopicArticles = () => {
         console.log(error);
         setIsLoading(false);
       });
-  }, [topic, sort_by, order]);
+  }, [topic, sort_by, order, limit, p]);
 
   const handleSortSelect = (event) => {
     const newSort = event.target.value;
-    setSearchParams({ sort_by: newSort, order });
+    setSearchParams({ sort_by: newSort, order, limit, p });
   };
 
   const handleOrderSelect = (event) => {
     const newOrder = event.target.value;
-    setSearchParams({ sort_by, order: newOrder });
+    setSearchParams({ sort_by, order: newOrder, limit, p });
+  };
+
+  const handleLimitSelect = (event) => {
+    const newLimit = event.target.value;
+    setSearchParams({ sort_by, order, limit: newLimit, p });
+  };
+
+  const handlePSelect = (newP) => {
+    setSearchParams({ sort_by, order, limit, p: newP });
   };
 
   if (isLoading) {
@@ -64,6 +78,21 @@ export const SpecificTopicArticles = () => {
             <option value="desc">Descending</option>
           </select>
         </label>
+        <label>
+          Articles per page:
+          <select value={limit} onChange={handleLimitSelect}>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="30">30</option>
+            <option value="35">35</option>
+            <option value="40">40</option>
+            <option value="45">45</option>
+            <option value="50">50</option>
+          </select>
+        </label>
       </div>
       <p>there are {totalCount} articles matching your search</p>
       <ul className="articles_list">
@@ -77,6 +106,17 @@ export const SpecificTopicArticles = () => {
           );
         })}
       </ul>
+      <div className="page_navigation">
+        {p > 1 && (
+          <button onClick={() => handlePSelect(1)}>Back to Page 1</button>
+        )}
+        {p > 1 && (
+          <button onClick={() => handlePSelect(p - 1)}>Previous Page</button>
+        )}
+        {p < numOfPages && (
+          <button onClick={() => handlePSelect(p + 1)}>Next Page</button>
+        )}
+      </div>
     </div>
   );
 };
