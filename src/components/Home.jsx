@@ -13,7 +13,7 @@ export const Home = () => {
   const sort_by = searchParams.get("sort_by") || "created_at";
   const order = searchParams.get("order") || "desc";
   const limit = searchParams.get("limit") || 10;
-  const p = searchParams.get("p") || 1;
+  const p = Number(searchParams.get("p")) || 1;
   const numOfPages = Math.ceil(totalCount / limit);
 
   useEffect(() => {
