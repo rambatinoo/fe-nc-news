@@ -5,14 +5,21 @@ const newsAPI = axios.create({
   baseURL: "https://backend-project-nc-news-hftl.onrender.com/api",
 });
 
-export const getArticles = (topic) => {
+export const getArticles = (
+  topic,
+  sort_by = "created_at",
+  order = "desc",
+  limit = 10,
+  p = 1
+) => {
   return newsAPI
-    .get("/articles", { params: { topic: topic } })
+    .get("/articles", { params: { topic, sort_by, order, limit, p } })
     .then(({ data }) => {
       return data;
     })
     .catch((error) => {
       console.log(error);
+      throw error;
     });
 };
 
