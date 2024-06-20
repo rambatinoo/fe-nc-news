@@ -18,8 +18,14 @@ export const getArticles = (
       return data;
     })
     .catch((error) => {
-      console.log(error);
-      throw error;
+      if (error.response) {
+        throw { status: error.response.status, msg: error.response.data.msg };
+      } else {
+        throw {
+          status: 500,
+          msg: "The server is Broken with an unknown error",
+        };
+      }
     });
 };
 
@@ -30,7 +36,14 @@ export const getArticleById = (id) => {
       return data.article;
     })
     .catch((error) => {
-      console.log(error);
+      if (error.response) {
+        throw { status: error.response.status, msg: error.response.data.msg };
+      } else {
+        throw {
+          status: 500,
+          msg: "The server is Broken with an unknown error",
+        };
+      }
     });
 };
 
@@ -61,7 +74,6 @@ export const postNewComment = (articleId, commentText, user) => {
       return data.comment;
     })
     .catch((error) => {
-      console.log(error);
       throw error;
     });
 };
@@ -73,13 +85,24 @@ export const deleteComment = (id) => {
       return response;
     })
     .catch((error) => {
-      console.log(error);
       throw error;
     });
 };
 
 export const getTopics = () => {
-  return newsAPI.get("/topics").then(({ data }) => {
-    return data.topics;
-  });
+  return newsAPI
+    .get("/topics")
+    .then(({ data }) => {
+      return data.topics;
+    })
+    .catch((error) => {
+      if (error.response) {
+        throw { status: error.response.status, msg: error.response.data.msg };
+      } else {
+        throw {
+          status: 500,
+          msg: "The server is Broken with an unknown error",
+        };
+      }
+    });
 };

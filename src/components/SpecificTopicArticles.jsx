@@ -12,6 +12,7 @@ export const SpecificTopicArticles = () => {
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [error, setError] = useState(null);
 
   const sort_by = searchParams.get("sort_by") || "created_at";
   const order = searchParams.get("order") || "desc";
@@ -28,7 +29,7 @@ export const SpecificTopicArticles = () => {
         setIsLoading(false);
       })
       .catch((error) => {
-        console.log(error);
+        setError(error);
         setIsLoading(false);
       });
   }, [topic, sort_by, order, limit, p]);
@@ -51,6 +52,15 @@ export const SpecificTopicArticles = () => {
   const handlePSelect = (newP) => {
     setSearchParams({ sort_by, order, limit, p: newP });
   };
+
+  if (error) {
+    return (
+      <div>
+        <h2>Error status: {error.status}</h2>
+        <h2>{error.msg}</h2>
+      </div>
+    );
+  }
 
   if (isLoading) {
     return <h2>Loading...</h2>;
