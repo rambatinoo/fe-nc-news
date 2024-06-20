@@ -8,15 +8,23 @@ export const Home = () => {
   const [articles, setArticles] = useState([]);
   const [totalCount, setTotalCount] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
+  const [isLoading, setIsLoading] = useState(true);
 
   const sort_by = searchParams.get("sort_by") || "created_at";
   const order = searchParams.get("order") || "desc";
 
   useEffect(() => {
-    getArticles(null, sort_by, order).then((response) => {
-      setArticles(response.articles);
-      setTotalCount(response.totalCount);
-    });
+    setIsLoading(true);
+    getArticles(null, sort_by, order)
+      .then((response) => {
+        setArticles(response.articles);
+        setTotalCount(response.totalCount);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoading(false);
+      });
   }, [sort_by, order]);
 
   const handleSortSelect = (event) => {
@@ -28,6 +36,10 @@ export const Home = () => {
     const newOrder = event.target.value;
     setSearchParams({ sort_by, order: newOrder });
   };
+
+  if (isLoading) {
+    return <h2>Loading...</h2>;
+  }
 
   return (
     <div>
