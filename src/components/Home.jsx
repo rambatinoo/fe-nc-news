@@ -45,8 +45,7 @@ export const Home = () => {
     setSearchParams({ sort_by, order, limit: newLimit, p });
   };
 
-  const handlePSelect = (event) => {
-    const newP = event.target.value;
+  const handlePSelect = (newP) => {
     setSearchParams({ sort_by, order, limit, p: newP });
   };
 
@@ -104,6 +103,17 @@ export const Home = () => {
           );
         })}
       </ul>
+      <div className="page_navigation">
+        {p > 1 && (
+          <button onClick={() => handlePSelect(1)}>Back to Page 1</button>
+        )}
+        {p > 1 && (
+          <button onClick={() => handlePSelect(p - 1)}>Previous Page</button>
+        )}
+        {p < numOfPages && (
+          <button onClick={() => handlePSelect(p + 1)}>Next Page</button>
+        )}
+      </div>
     </div>
   );
 };
