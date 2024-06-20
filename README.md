@@ -42,13 +42,14 @@ To run this project locally, follow these steps:
    npm install
 
 If you wish to see any changes you make locally 
+
 4. **Start the development server:**
 
    ```bash
    npm run dev
 
 
-follow the link that this shows in your terminal - it should be  http://localhost:5174/ unless this port is already in use in which case the numbers will be different.
+5. follow the link that this shows in your terminal - it should be  http://localhost:5174/ unless this port is already in use in which case the numbers will be different.
 
 ## About
 
