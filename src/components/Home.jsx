@@ -12,10 +12,13 @@ export const Home = () => {
 
   const sort_by = searchParams.get("sort_by") || "created_at";
   const order = searchParams.get("order") || "desc";
+  const limit = searchParams.get("limit") || 10;
+  const p = searchParams.get("p") || 1;
+  const numOfPages = Math.ceil(totalCount / limit);
 
   useEffect(() => {
     setIsLoading(true);
-    getArticles(null, sort_by, order)
+    getArticles(null, sort_by, order, limit, p)
       .then((response) => {
         setArticles(response.articles);
         setTotalCount(response.totalCount);
@@ -25,16 +28,26 @@ export const Home = () => {
         console.log(error);
         setIsLoading(false);
       });
-  }, [sort_by, order]);
+  }, [sort_by, order, limit, p]);
 
   const handleSortSelect = (event) => {
     const newSort = event.target.value;
-    setSearchParams({ sort_by: newSort, order });
+    setSearchParams({ sort_by: newSort, order, limit, p });
   };
 
   const handleOrderSelect = (event) => {
     const newOrder = event.target.value;
-    setSearchParams({ sort_by, order: newOrder });
+    setSearchParams({ sort_by, order: newOrder, limit, p });
+  };
+
+  const handleLimitSelect = (event) => {
+    const newLimit = event.target.value;
+    setSearchParams({ sort_by, order, limit: newLimit, p });
+  };
+
+  const handlePSelect = (event) => {
+    const newP = event.target.value;
+    setSearchParams({ sort_by, order, limit, p: newP });
   };
 
   if (isLoading) {
@@ -61,6 +74,21 @@ export const Home = () => {
           <select value={order} onChange={handleOrderSelect}>
             <option value="asc">Ascending</option>
             <option value="desc">Descending</option>
+          </select>
+        </label>
+        <label>
+          Articles per page:
+          <select value={limit} onChange={handleLimitSelect}>
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="25">25</option>
+            <option value="30">30</option>
+            <option value="35">35</option>
+            <option value="40">40</option>
+            <option value="45">45</option>
+            <option value="50">50</option>
           </select>
         </label>
       </div>
