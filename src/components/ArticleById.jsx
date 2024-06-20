@@ -23,6 +23,7 @@ export const ArticleById = () => {
   const [newComment, setNewComment] = useState("");
   const [commentError, setCommentError] = useState(null);
   const [deleteError, setDeleteError] = useState(null);
+  const [error, setError] = useState(null);
 
   const handleCommentClick = () => {
     getComments(article_id).then((response) => {
@@ -81,11 +82,24 @@ export const ArticleById = () => {
   };
 
   useEffect(() => {
-    getArticleById(article_id).then((response) => {
-      setArticle(response);
-      setDate(format(new Date(response.created_at), "EEE d MMMM yyyy"));
-    });
+    getArticleById(article_id)
+      .then((response) => {
+        setArticle(response);
+        setDate(format(new Date(response.created_at), "EEE d MMMM yyyy"));
+      })
+      .catch((error) => {
+        setError(error);
+      });
   }, [comments]);
+
+  if (error) {
+    return (
+      <div>
+        <h2>Error status: {error.status}</h2>
+        <h2>{error.msg}</h2>
+      </div>
+    );
+  }
   return (
     <div>
       <h2 className="article_page_title">{article.title}</h2>
