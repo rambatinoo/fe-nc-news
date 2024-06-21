@@ -2,7 +2,8 @@ import { useEffect, useState } from "react";
 import { getArticles } from "../utils/api";
 import { ArticleCard } from "./ArticleCard";
 import { TopicDropdown } from "./TopicDropdown";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, useLocation } from "react-router-dom";
+import Select from "react-select";
 
 export const Home = () => {
   const [articles, setArticles] = useState([]);
@@ -10,12 +11,38 @@ export const Home = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
+  const location = useLocation();
 
-  const sort_by = searchParams.get("sort_by") || "created_at";
-  const order = searchParams.get("order") || "desc";
-  const limit = searchParams.get("limit") || 10;
+  const [sort_by, setSortBy] = useState(
+    searchParams.get("sort_by") || "created_at"
+  );
+  const [order, setOrder] = useState(searchParams.get("order") || "desc");
+  const [limit, setLimit] = useState(searchParams.get("limit") || 10);
   const p = Number(searchParams.get("p")) || 1;
   const numOfPages = Math.ceil(totalCount / limit);
+  const sortByOptions = [
+    { value: "created_at", label: "Date Added" },
+    { value: "comment_count", label: "Number Of Comments" },
+    { value: "votes", label: "Likes" },
+  ];
+
+  const orderOptions = [
+    { value: "asc", label: "Ascending" },
+    { value: "desc", label: "Descending" },
+  ];
+
+  const articlesPerPageOptions = [
+    { value: "5", label: 5 },
+    { value: "10", label: 10 },
+    { value: "15", label: 15 },
+    { value: "20", label: 20 },
+    { value: "25", label: 25 },
+    { value: "30", label: 30 },
+    { value: "35", label: 35 },
+    { value: "40", label: 40 },
+    { value: "45", label: 45 },
+    { value: "50", label: 50 },
+  ];
 
   useEffect(() => {
     setIsLoading(true);
@@ -31,18 +58,30 @@ export const Home = () => {
       });
   }, [sort_by, order, limit, p]);
 
+  useEffect(() => {
+    if (location.state && location.state.reset) {
+      setSortBy("created_at");
+      setOrder("desc");
+      setLimit(10);
+      setSearchParams({});
+    }
+  }, [location.state, setSearchParams]);
+
   const handleSortSelect = (event) => {
-    const newSort = event.target.value;
+    const newSort = event.value;
+    setSortBy(newSort);
     setSearchParams({ sort_by: newSort, order, limit, p });
   };
 
   const handleOrderSelect = (event) => {
-    const newOrder = event.target.value;
+    const newOrder = event.value;
+    setOrder(newOrder);
     setSearchParams({ sort_by, order: newOrder, limit, p });
   };
 
   const handleLimitSelect = (event) => {
-    const newLimit = event.target.value;
+    const newLimit = event.value;
+    setLimit(newLimit);
     setSearchParams({ sort_by, order, limit: newLimit, p: 1 });
   };
 
@@ -70,35 +109,34 @@ export const Home = () => {
         <TopicDropdown />
       </label>
       <div className="sort_order_num_results">
-        <label>
+        <label className="dropdown-label">
           Sort by:
-          <select value={sort_by} onChange={handleSortSelect}>
-            <option value="created_at">Date Added</option>
-            <option value="comment_count">Number Of Comments</option>
-            <option value="votes">Likes</option>
-          </select>
+          <Select
+            options={sortByOptions}
+            value={sortByOptions.find((option) => option.value === sort_by)}
+            onChange={handleSortSelect}
+            className="dropdown-select"
+          />
         </label>
-        <label>
+        <label className="dropdown-label">
           Order:
-          <select value={order} onChange={handleOrderSelect}>
-            <option value="asc">Ascending</option>
-            <option value="desc">Descending</option>
-          </select>
+          <Select
+            options={orderOptions}
+            value={orderOptions.find((option) => option.value === order)}
+            onChange={handleOrderSelect}
+            className="dropdown-select"
+          />
         </label>
-        <label>
+        <label className="dropdown-label">
           Articles per page:
-          <select value={limit} onChange={handleLimitSelect}>
-            <option value="5">5</option>
-            <option value="10">10</option>
-            <option value="15">15</option>
-            <option value="20">20</option>
-            <option value="25">25</option>
-            <option value="30">30</option>
-            <option value="35">35</option>
-            <option value="40">40</option>
-            <option value="45">45</option>
-            <option value="50">50</option>
-          </select>
+          <Select
+            options={articlesPerPageOptions}
+            value={articlesPerPageOptions.find(
+              (option) => option.value === limit
+            )}
+            onChange={handleLimitSelect}
+            className="dropdown-select"
+          />
         </label>
       </div>
       <p>there are {totalCount} articles matching your search</p>

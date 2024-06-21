@@ -28,6 +28,7 @@ function App() {
                 path="/articles/topics/:topic"
                 element={<SpecificTopicArticles />}
               ></Route>
+              <Route path="*"></Route>
             </Routes>
           </div>
         </BrowserRouter>
