@@ -1,7 +1,7 @@
 .header {
   display: inline-block;
   text-align: center;
-  border: 2px solid red;
+  border: 2px solid rgb(13, 255, 0);
   margin-bottom: 1px;
 }
 
