@@ -104,13 +104,13 @@ export const ArticleById = () => {
     <div>
       <h2 className="article_page_title">{article.title}</h2>
       <div className="article_page_main_info">
-        <div className="article_side_by_side">
+        <div className="article_image_container">
           <img
             src={article.article_img_url}
             className="main_article_image"
           ></img>
         </div>
-        <div className="article_side_by_side">
+        <div className="article_info_container">
           <h3 className="article_info">{article.topic}</h3>
           <h3 className="article_info">By: {article.author}</h3>
           <h3 className="article_info">Article Posted On: {date}</h3>

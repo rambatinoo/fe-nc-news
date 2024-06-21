@@ -28,8 +28,8 @@
 }
 
 .header_logo {
-  width: 8rem;
-  height: 8rem;
+  width: 7rem;
+  height: 7rem;
 }
 
 .header_text {
@@ -84,8 +84,8 @@
 .article_page_main_info {
   display: flex;
   flex-direction: row;
-  width: 90%;
-  flex-shrink: 1;
+  width: 100%;
+  align-items: stretch;
 }
 
 .article_side_by_side {
@@ -96,8 +96,21 @@
   max-width: 50%;
 }
 
+.article_image_container {
+  flex-basis: 66.66%;
+}
+
+.article_info_container {
+  flex-basis: 33.33%;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .main_article_image {
   max-width: 100%;
+  height: auto;
 }
 
 .article_body {
@@ -170,5 +183,5 @@
 #topic_dropdown {
   padding-left: 10px;
   padding-right: 10px;
-  width: 100%;
+  width: 90%;
 }
