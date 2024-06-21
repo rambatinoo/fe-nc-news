@@ -1,11 +1,24 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export const NavBar = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [, setSearchParams] = useSearchParams();
+
+  const handleHomeClick = () => {
+    setSearchParams({});
+    if (location.pathname === "/") {
+      navigate("/", { state: { reset: Date.now() } });
+    } else {
+      navigate("/");
+    }
+  };
   return (
     <nav className="nav_bar">
-      <Link to={`/`} className="nav_link">
+      <button onClick={handleHomeClick} className="nav_link">
         Home
-      </Link>
+      </button>
       <Link to={`/login`} className="nav_link">
         Login
       </Link>
