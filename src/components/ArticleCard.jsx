@@ -25,19 +25,22 @@ export const ArticleCard = ({ article }) => {
           id={article.article.article_id}
         />
         <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+          <Typography gutterBottom variant="h6" component="div">
             {article.article.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             {article.article.topic}
+            <p>Author: {article.article.author}</p>
           </Typography>
         </CardContent>
-        <p>Author: {article.article.author}</p>
+        <p id="likes_comments_on_art_card">
+          <span id="likes_art_card"> {article.article.votes} Likes </span>{" "}
+          <span id="comments_art_card">
+            {" "}
+            {article.article.comment_count} Comments{" "}
+          </span>
+        </p>
       </CardActionArea>
-      <CardActions>
-        <Button size="small">like</Button>
-        <div>{article.article.votes}</div>
-      </CardActions>
     </Card>
   );
 };

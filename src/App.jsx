@@ -14,20 +14,22 @@ function App() {
     <>
       <UserProvider>
         <BrowserRouter>
-          <Header />
-          <NavBar />
-          <Routes>
-            <Route path="/" element={<Home />}></Route>
-            <Route path="/write_article" element={<AddArticle />}></Route>
-            <Route
-              path="/articles/:article_id"
-              element={<ArticleById />}
-            ></Route>
-            <Route
-              path="/articles/topics/:topic"
-              element={<SpecificTopicArticles />}
-            ></Route>
-          </Routes>
+          <div id="view-window">
+            <Header />
+            <NavBar />
+            <Routes>
+              <Route path="/" element={<Home />}></Route>
+              <Route path="/write_article" element={<AddArticle />}></Route>
+              <Route
+                path="/articles/:article_id"
+                element={<ArticleById />}
+              ></Route>
+              <Route
+                path="/articles/topics/:topic"
+                element={<SpecificTopicArticles />}
+              ></Route>
+            </Routes>
+          </div>
         </BrowserRouter>
       </UserProvider>
     </>

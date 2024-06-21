@@ -1,31 +1,80 @@
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: #6db3d1;
   display: inline-block;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   text-align: center;
-  border: 2px solid rgb(13, 255, 0);
   margin-bottom: 1px;
+  z-index: 1000;
+}
+
+#view-window {
+  max-width: 100vw;
+  max-height: 100vw;
+}
+
+#NC_News {
+  font-size: 2.5rem;
+  text-align: center;
 }
 
 .logo_header {
   display: inline-flex;
 }
 
+.header_logo {
+  width: 8rem;
+  height: 8rem;
+}
+
+.header_text {
+  margin-top: 0;
+  margin-bottom: 2px;
+  font-size: small;
+}
+
 .nav_bar {
-  border: 2px solid green;
   width: 100%;
+  margin-top: 205px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #aed6e7;
 }
 
 .nav_link {
-  display: inline-block;
-  padding: 20px;
+  margin: 0 15px;
+  text-decoration: none;
+  color: #007bff;
+  font-size: 1.2rem;
+}
+
+.nav_link:hover {
+  text-decoration: underline;
+}
+
+#container-for-article-cards {
+  width: 100%;
 }
 
 .articles_list {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  list-style-type: none;
 }
 
 .article_card {
-  flex: 1 1 160px;
+  flex: 1 1 300px;
   width: 350px;
   padding-left: 15px;
   padding-right: 15px;
@@ -35,7 +84,7 @@
 .article_page_main_info {
   display: flex;
   flex-direction: row;
-  width: 100%;
+  width: 90%;
   flex-shrink: 1;
 }
 
@@ -98,4 +147,28 @@
 
 .comment_likes {
   display: inline-flex;
+}
+
+.MuiCard-root {
+  margin-bottom: 0.5rem;
+}
+
+#likes_comments_on_art_card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0%;
+  padding-left: 20%;
+  padding-right: 20%;
+  font-size: 0.9rem;
+}
+
+.MuiCardContent-root {
+  padding-bottom: 0;
+}
+
+#topic_dropdown {
+  padding-left: 10px;
+  padding-right: 10px;
+  width: 100%;
 }

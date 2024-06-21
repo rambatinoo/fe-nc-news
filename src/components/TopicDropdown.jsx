@@ -32,5 +32,9 @@ export const TopicDropdown = () => {
     );
   }
 
-  return <Select options={options} onChange={handleChange} />;
+  return (
+    <div id="topic_dropdown">
+      <Select options={options} onChange={handleChange} />{" "}
+    </div>
+  );
 };

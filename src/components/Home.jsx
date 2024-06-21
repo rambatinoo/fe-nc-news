@@ -43,7 +43,7 @@ export const Home = () => {
 
   const handleLimitSelect = (event) => {
     const newLimit = event.target.value;
-    setSearchParams({ sort_by, order, limit: newLimit, p });
+    setSearchParams({ sort_by, order, limit: newLimit, p: 1 });
   };
 
   const handlePSelect = (newP) => {
@@ -102,17 +102,19 @@ export const Home = () => {
         </label>
       </div>
       <p>there are {totalCount} articles matching your search</p>
-      <ul className="articles_list">
-        {articles.map((article) => {
-          return (
-            <div>
-              <li className="article_card" key={article.article_id}>
-                <ArticleCard article={{ article }} />
-              </li>
-            </div>
-          );
-        })}
-      </ul>
+      <div id="container-for-article-cards">
+        <ul className="articles_list">
+          {articles.map((article) => {
+            return (
+              <div>
+                <li className="article_card" key={article.article_id}>
+                  <ArticleCard article={{ article }} />
+                </li>
+              </div>
+            );
+          })}
+        </ul>
+      </div>
       <div className="page_navigation">
         {p > 1 && (
           <button onClick={() => handlePSelect(1)}>Back to Page 1</button>
