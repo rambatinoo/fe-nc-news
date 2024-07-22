@@ -1,4 +1,5 @@
 // MAKE TOPIC A QUERY ON A REFACTOR SO THAT EVERYTHING IS CONTROLLED BY THE HOME PAGE - TOO MUCH COPY AND PASTE
+// this should be done on 23/7/24
 
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useState } from "react";
