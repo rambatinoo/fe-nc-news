@@ -4,6 +4,8 @@ import Select from "react-select";
 
 export const AddArticle = () => {
   const [topic, setTopic] = useState("");
+  const [title, setTitle] = useState("");
+  const [titleError, setTitleError] = useState("");
   let topicSelected = false;
 
   const [options, setOptions] = useState([]);
@@ -22,12 +24,26 @@ export const AddArticle = () => {
 
   const handleTopicSelect = (selectedTopic) => {
     setTopic(selectedTopic.value);
-    console.log(topic); //set topic is async so the log is one step behind the topic selected.
     topicSelected = true;
   };
 
   const resetTopic = () => {
     setTopic("");
+  };
+
+  const validateTitle = () => {
+    if (title.length > 50) {
+      setTitleError("Title must be less than 50 characters");
+      return false;
+    } else {
+      setTitleError("");
+      return true;
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateTitle()) console.log("successful submission");
   };
 
   return (
@@ -48,22 +64,31 @@ export const AddArticle = () => {
           <button onClick={resetTopic}>change topic</button>
         </div>
       )}
-      <form>
-        <label>
-          {" "}
-          Title:
-          <input />
-        </label>
+      <form onSubmit={handleSubmit}>
+        <div>
+          <label>
+            {" "}
+            Title:
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              onBlur={validateTitle}
+              required
+            />
+          </label>
+          {titleError && <p>{titleError}</p>}
+          <label>
+            {" "}
+            Image URL:
+            <input required />
+          </label>
+        </div>
         <label>
           {" "}
           Text:
-          <input />
+          <input required />
         </label>
-        <label>
-          {" "}
-          Image URL:
-          <input />
-        </label>
+        <button>Post Article!</button>
       </form>
     </div>
   );
