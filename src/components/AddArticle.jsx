@@ -4,6 +4,8 @@ import Select from "react-select";
 
 export const AddArticle = () => {
   const [topic, setTopic] = useState("");
+  const [title, setTitle] = useState("");
+  const [titleError, setTitleError] = useState("");
   let topicSelected = false;
 
   const [options, setOptions] = useState([]);
@@ -22,7 +24,6 @@ export const AddArticle = () => {
 
   const handleTopicSelect = (selectedTopic) => {
     setTopic(selectedTopic.value);
-    console.log(topic); //set topic is async so the log is one step behind the topic selected.
     topicSelected = true;
   };
 
@@ -49,21 +50,24 @@ export const AddArticle = () => {
         </div>
       )}
       <form>
-        <label>
-          {" "}
-          Title:
-          <input />
-        </label>
+        <div>
+          <label>
+            {" "}
+            Title:
+            <input required />
+          </label>
+          <label>
+            {" "}
+            Image URL:
+            <input required />
+          </label>
+        </div>
         <label>
           {" "}
           Text:
-          <input />
+          <input required />
         </label>
-        <label>
-          {" "}
-          Image URL:
-          <input />
-        </label>
+        <button>Post Article!</button>
       </form>
     </div>
   );

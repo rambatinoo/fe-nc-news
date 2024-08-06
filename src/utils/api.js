@@ -106,3 +106,21 @@ export const getTopics = () => {
       }
     });
 };
+
+export const postNewArticle = (user, title, articleText, topic, url) => {
+  const body = {
+    author: user,
+    title: title,
+    body: articleText,
+    topic: topic,
+    article_img_url: url,
+  };
+  return newsAPI
+    .post("/articles", body)
+    .then(({ data }) => {
+      return data.comment;
+    })
+    .catch((error) => {
+      throw error;
+    });
+};
