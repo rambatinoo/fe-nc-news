@@ -31,6 +31,21 @@ export const AddArticle = () => {
     setTopic("");
   };
 
+  const validateTitle = () => {
+    if (title.length > 50) {
+      setTitleError("Title must be less than 50 characters");
+      return false;
+    } else {
+      setTitleError("");
+      return true;
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateTitle()) console.log("successful submission");
+  };
+
   return (
     <div>
       {!topic ? (
@@ -49,13 +64,19 @@ export const AddArticle = () => {
           <button onClick={resetTopic}>change topic</button>
         </div>
       )}
-      <form>
+      <form onSubmit={handleSubmit}>
         <div>
           <label>
             {" "}
             Title:
-            <input required />
+            <input
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              onBlur={validateTitle}
+              required
+            />
           </label>
+          {titleError && <p>{titleError}</p>}
           <label>
             {" "}
             Image URL:
