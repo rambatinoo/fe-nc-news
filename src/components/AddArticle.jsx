@@ -23,20 +23,31 @@ export const AddArticle = () => {
   const handleTopicSelect = (selectedTopic) => {
     setTopic(selectedTopic.value);
     console.log(topic); //set topic is async so the log is one step behind the topic selected.
+    topicSelected = true;
+  };
+
+  const resetTopic = () => {
+    setTopic("");
   };
 
   return (
     <div>
-      {!topicSelected ? (
+      {!topic ? (
         <div>
-          <h3>Please select a topic</h3>
+          <h3>What topic is your article?</h3>
           <Select options={options} onChange={handleTopicSelect} />
-          <label>
+          {/* here add ability to add a new topic if the article to be added does not fit into the current topics*/}
+          {/* <label>
             or create a new topic
             <input type="checkbox" />
-          </label>
+          </label> */}
         </div>
-      ) : null}
+      ) : (
+        <div>
+          <h3>Article topic: {topic}</h3>
+          <button onClick={resetTopic}>change topic</button>
+        </div>
+      )}
       <form>
         <label>
           {" "}
