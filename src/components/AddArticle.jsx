@@ -5,7 +5,11 @@ import Select from "react-select";
 export const AddArticle = () => {
   const [topic, setTopic] = useState("");
   const [title, setTitle] = useState("");
+  const [imageURL, setImageURL] = useState("");
+  const [body, setBody] = useState("");
   const [titleError, setTitleError] = useState("");
+  const [URLError, setURLError] = useState("");
+  const [bodyError, setBodyError] = useState("");
   let topicSelected = false;
 
   const [options, setOptions] = useState([]);
@@ -41,9 +45,45 @@ export const AddArticle = () => {
     }
   };
 
+  const validateImageURL = () => {
+    const regex =
+      /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z0-9\u00a1-\uffff][a-z0-9\u00a1-\uffff_-]{0,62})?[a-z0-9\u00a1-\uffff]\.)+(?:[a-z\u00a1-\uffff]{2,}\.?))(?::\d{2,5})?(?:[/?#]\S*)?$/;
+    if (!regex.test(imageURL)) {
+      setURLError("please enter a valid URL");
+      return false;
+    } else {
+      setURLError("");
+      return true;
+    }
+  };
+
+  const validateBody = () => {
+    if (!body) {
+      setBodyError("Body is required");
+      return false;
+    } else if (body.length < 200) {
+      setBodyError("Article must be at least 200 characters!");
+      return false;
+    } else if (body.length > 15000) {
+      setBodyError("Article must be less than 15000 characters");
+      return false;
+    } else {
+      setBodyError("");
+      return true;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateTitle()) console.log("successful submission");
+    const isTitleValid = validateTitle();
+    const isURLValid = validateImageURL();
+    const isBodyValid = validateBody();
+
+    if (isTitleValid && isURLValid && isBodyValid) {
+      console.log("Successful submission");
+    } else {
+      console.log("Validation failed");
+    }
   };
 
   return (
@@ -80,14 +120,26 @@ export const AddArticle = () => {
           <label>
             {" "}
             Image URL:
-            <input required />
+            <input
+              value={imageURL}
+              onChange={(e) => setImageURL(e.target.value)}
+              onBlur={validateImageURL}
+              required
+            />
           </label>
+          {URLError && <p>{URLError}</p>}
         </div>
         <label>
           {" "}
           Text:
-          <input required />
+          <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            onBlur={validateBody}
+            required
+          ></textarea>
         </label>
+        {bodyError && <p>{bodyError}</p>}
         <button>Post Article!</button>
       </form>
     </div>
