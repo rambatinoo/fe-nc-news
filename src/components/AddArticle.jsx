@@ -6,8 +6,10 @@ export const AddArticle = () => {
   const [topic, setTopic] = useState("");
   const [title, setTitle] = useState("");
   const [imageURL, setImageURL] = useState("");
+  const [body, setBody] = useState("");
   const [titleError, setTitleError] = useState("");
   const [URLError, setURLError] = useState("");
+  const [bodyError, setBodyError] = useState("");
   let topicSelected = false;
 
   const [options, setOptions] = useState([]);
@@ -55,9 +57,33 @@ export const AddArticle = () => {
     }
   };
 
+  const validateBody = () => {
+    if (!body) {
+      setBodyError("Body is required");
+      return false;
+    } else if (body.length < 200) {
+      setBodyError("Article must be at least 200 characters!");
+      return false;
+    } else if (body.length > 15000) {
+      setBodyError("Article must be less than 15000 characters");
+      return false;
+    } else {
+      setBodyError("");
+      return true;
+    }
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (validateTitle()) console.log("successful submission");
+    const isTitleValid = validateTitle();
+    const isURLValid = validateImageURL();
+    const isBodyValid = validateBody();
+
+    if (isTitleValid && isURLValid && isBodyValid) {
+      console.log("Successful submission");
+    } else {
+      console.log("Validation failed");
+    }
   };
 
   return (
@@ -106,8 +132,14 @@ export const AddArticle = () => {
         <label>
           {" "}
           Text:
-          <input required />
+          <textarea
+            value={body}
+            onChange={(e) => setBody(e.target.value)}
+            onBlur={validateBody}
+            required
+          ></textarea>
         </label>
+        {bodyError && <p>{bodyError}</p>}
         <button>Post Article!</button>
       </form>
     </div>
