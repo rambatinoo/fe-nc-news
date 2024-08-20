@@ -97,9 +97,11 @@ export const AddArticle = () => {
             <input
               value={imageURL}
               onChange={(e) => setImageURL(e.target.value)}
+              onBlur={validateImageURL}
               required
             />
           </label>
+          {URLError && <p>{URLError}</p>}
         </div>
         <label>
           {" "}
