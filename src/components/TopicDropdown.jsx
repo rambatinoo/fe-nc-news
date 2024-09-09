@@ -24,7 +24,6 @@ export const TopicDropdown = () => {
         const newOptions = topics.map((topic) => {
           return { value: topic.slug, label: topic.slug };
         });
-        console.log(newOptions);
         setOptions([{ value: null, label: "All Topics" }, ...newOptions]);
       })
       .catch((error) => {
