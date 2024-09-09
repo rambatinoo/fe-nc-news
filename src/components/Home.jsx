@@ -155,13 +155,25 @@ export const Home = () => {
       </div>
       <div className="page_navigation">
         {p > 1 && (
-          <button onClick={() => handlePSelect(1)}>Back to Page 1</button>
+          <button className="pageNavButton" onClick={() => handlePSelect(1)}>
+            Back to Page 1
+          </button>
         )}
         {p > 1 && (
-          <button onClick={() => handlePSelect(p - 1)}>Previous Page</button>
+          <button
+            className="pageNavButton"
+            onClick={() => handlePSelect(p - 1)}
+          >
+            Previous Page
+          </button>
         )}
         {p < numOfPages && (
-          <button onClick={() => handlePSelect(p + 1)}>Next Page</button>
+          <button
+            className="pageNavButton"
+            onClick={() => handlePSelect(p + 1)}
+          >
+            Next Page
+          </button>
         )}
       </div>
     </div>
