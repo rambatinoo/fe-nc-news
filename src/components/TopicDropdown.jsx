@@ -1,16 +1,18 @@
 import Select from "react-select";
 import { useState, useEffect } from "react";
 import { getTopics } from "../utils/api";
-import { useNavigate } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 
 export const TopicDropdown = () => {
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [options, setOptions] = useState([]);
+  const [searchParams, setSearchParams] = useSearchParams();
+
   const handleChange = (event) => {
-    navigate(`/articles/topics/${event.value}`);
+    const selectedTopic = event.value;
+    setSearchParams({ topic: selectedTopic });
   };
 
-  const [options, setOptions] = useState([]);
   useEffect(() => {
     getTopics()
       .then((topics) => {
