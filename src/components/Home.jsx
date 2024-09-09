@@ -13,6 +13,7 @@ export const Home = () => {
   const [error, setError] = useState(null);
   const location = useLocation();
 
+  const topic = searchParams.get("topic");
   const [sort_by, setSortBy] = useState(
     searchParams.get("sort_by") || "created_at"
   );
@@ -46,7 +47,8 @@ export const Home = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    getArticles(null, sort_by, order, limit, p)
+    const selectedTopic = topic || undefined;
+    getArticles(selectedTopic, sort_by, order, limit, p)
       .then((response) => {
         setArticles(response.articles);
         setTotalCount(response.totalCount);
@@ -56,7 +58,7 @@ export const Home = () => {
         setError(error);
         setIsLoading(false);
       });
-  }, [sort_by, order, limit, p]);
+  }, [topic, sort_by, order, limit, p]);
 
   useEffect(() => {
     if (location.state && location.state.reset) {
