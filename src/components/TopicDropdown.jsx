@@ -10,7 +10,12 @@ export const TopicDropdown = () => {
 
   const handleChange = (event) => {
     const selectedTopic = event.value;
-    setSearchParams({ topic: selectedTopic });
+    if (selectedTopic) {
+      setSearchParams({ topic: selectedTopic });
+    } else {
+      searchParams.delete("topic");
+      setSearchParams(searchParams);
+    }
   };
 
   useEffect(() => {
@@ -19,7 +24,8 @@ export const TopicDropdown = () => {
         const newOptions = topics.map((topic) => {
           return { value: topic.slug, label: topic.slug };
         });
-        setOptions(newOptions);
+        console.log(newOptions);
+        setOptions([{ value: null, label: "All Topics" }, ...newOptions]);
       })
       .catch((error) => {
         setError(error);

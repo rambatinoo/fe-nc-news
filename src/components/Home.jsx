@@ -47,7 +47,8 @@ export const Home = () => {
 
   useEffect(() => {
     setIsLoading(true);
-    getArticles(topic, sort_by, order, limit, p)
+    const selectedTopic = topic || undefined;
+    getArticles(selectedTopic, sort_by, order, limit, p)
       .then((response) => {
         setArticles(response.articles);
         setTotalCount(response.totalCount);
